@@ -1,0 +1,16 @@
+{
+  "name": "mock-server-json",
+  "version": "1.0.0",
+  "description": "servidor mock para web api baseada em arquivos json.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "src/server.js"
+  },
+  "author": "Junior Cesar Fernandes Rocha",
+  "license": "MIT",
+  "dependencies": {
+    "dibuilder": "^1.1.6",
+    "express": "^4.17.1"
+  }
+}
