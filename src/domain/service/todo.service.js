@@ -12,44 +12,44 @@ module.exports = function (injector) {
         return service;
 
         //implementation
-        function listar(callback) {
-            entityService.listar(todoData, function(err, lista) {
-                if (err) return callback(err);
-
-                return callback(null, lista);
-            });
-        }    
-
-        function buscar(id, callback) {
-            entityService.buscar(id, todoData, function(err, item) {
-                if (err) return callback(err);
-
-                return callback(null, item);
-            });
-        }    
-        
-        function inserir(data, callback) {
-            entityService.inserir(data, todoData, function(err) {
-                if (err) return callback(err);
-
-                return callback(null);
-            });
+        async function listar() {
+            try {
+                return await entityService.listar(todoData);
+            } catch (error) {
+                throw new Error(error);
+            }            
         }
 
-        function atualizar(data, callback) {
-            entityService.atualizar(data, todoData, function(err) {
-                if (err) return callback(err);
-
-                return callback(null);
-            });
+        async function buscar(id) {
+            try {
+                return await entityService.buscar(id, todoData);
+            } catch (error) {
+                throw new Error(error);
+            }           
         }
 
-        function excluir(id, callback) {
-            entityService.excluir(id, todoData, function(err) {
-                if (err) return callback(err);
+        async function inserir(data) {
+            try {
+                return await entityService.inserir(data, todoData)
+            } catch (error) {
+                throw new Error(error);
+            }            
+        }
 
-                return callback(null);
-            });
+        async function atualizar(data) {
+            try {
+                return await entityService.atualizar(data, todoData);    
+            } catch (error) {
+                throw new Error(error);
+            }            
+        }
+
+        async function excluir(id) {
+            try {
+                return await entityService.excluir(id, todoData);
+            } catch (error) {
+                throw new Error(error);
+            }            
         } 
     }
 };

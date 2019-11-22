@@ -19,7 +19,7 @@ module.exports = function (injector) {
         );
 
         router.put(
-            '/todo', 
+            '/todo/:id', 
             atualizar
         );
 
@@ -27,50 +27,55 @@ module.exports = function (injector) {
             '/todo/:id', 
             excluir
         );
-
-        function listar(req, res, next) {
-            todoService.listar(function(err, lista) {
-                if (err) return res.send(err);
-
+        
+        async function listar(req, res, next) {
+            try {
+                const lista = await todoService.listar();
                 return res.send(lista);
-                next()
-            })
-        }
+                next();
+            } catch (error) {
+                return res.status(500).send(error);
+            }            
+        }        
 
-        function buscar(req, res, next) {
-            todoService.buscar(req.params.id, function(err, item) {
-                if (err) return res.status(404).send(err);
-
+        async function buscar(req, res, next) {
+            try {
+                const item = await todoService.buscar(req.params.id);
                 return res.send(item);
                 next()
-            })
+            } catch (error) {
+                res.status(404).send(error);
+            }            
         }
 
-        function inserir(req, res, next) {
-            todoService.inserir(req.body, function(err) {
-                if (err) return res.send(err);
-
+        async function inserir(req, res, next) {
+            try {
+                await todoService.inserir(req.body);
                 return res.send(null);
-                next()
-            })
+                next();
+            } catch (error) {
+                return res.status(500).send(error);
+            }            
         }
 
-        function atualizar(req, res, next) {
-            todoService.atualizar(req.body, function(err) {
-                if (err) return res.send(err);
-
+        async function atualizar(req, res, next) {
+            try {
+                await todoService.atualizar(req.params.id, req.body);
                 return res.send(null);
-                next()
-            })
+                next();
+            } catch (error) {
+                return res.status(500).send(error);
+            }
         }
 
-        function excluir(req, res, next) {
-            todoService.excluir(req.params.id, function(err, item) {
-                if (err) return res.status(404).send(err);
-
+        async function excluir(req, res, next) {
+            try {
+                await todoService.excluir(req.params.id);
                 return res.send(null);
-                next()
-            })
+                next();
+            } catch (error) {
+                return res.status(500).send(error);
+            }            
         }
     }
 };
