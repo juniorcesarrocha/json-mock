@@ -35,6 +35,8 @@ module.exports = function (injector) {
                 const lista = await listar(dataService);
                 const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
                 if (index >= 0) return lista[index];
+                if (index < 0) return {};
+
             } catch (error) {
                 throw new Error(`Error: Not Found`);
             }
@@ -53,15 +55,17 @@ module.exports = function (injector) {
             return data[dataService.def.primaryKeyColumn];
         }
 
-        async function atualizar(data, dataService, callback) {
+        async function atualizar(data, dataService) {
             try {
                 const lista = await listar(dataService);
-                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == data[dataService.def.primaryKeyColumn]);
+                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == data[dataService.def.primaryKeyColumn]);                
+                if (index < 0) throw new Error(`Error: Not Found`);
+
                 lista[index] = data;
                 await saveChanges(lista, dataService);
-                return null
+                return data;
             } catch (error) {
-                return callback('Not Found!');
+                throw new Error(`Error: ${error}`);
             }
         }
 
@@ -71,7 +75,7 @@ module.exports = function (injector) {
                 const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
                 lista.splice(index, 1);
                 await saveChanges(lista, dataService);
-                return null;
+                return lista;
             } catch (error) {
                 throw new Error(`Error: ${error}`);
             }
