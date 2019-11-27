@@ -15,16 +15,19 @@ module.exports = function (injector) {
         //custom implementation
 
         async function listar(dataService) {
-            try {
-                const jsonFile = `${entityDirectory}/${dataService.def.entityName}.json`;
+            return new Promise((resolve, reject) => {
+                
+                const jsonFile = getFile(dataService);
 
-                if (fs.existsSync(jsonFile)) {
-                    let rawdata = fs.readFileSync(jsonFile);
-                    return JSON.parse(rawdata);
-                }
-            } catch (error) {
-                throw new Error(`Error: ${error}`);
-            }
+                fs.stat(jsonFile, function(error) {
+                    if (error) return reject(error);
+
+                    fs.readFile(jsonFile, function (error, data) {
+                        if (error) return reject(error);
+                        resolve(JSON.parse(data));
+                    }); 
+                });
+            });
         }
 
         async function buscar(id, dataService) {
@@ -85,14 +88,24 @@ module.exports = function (injector) {
         }
 
         async function saveChanges(data, dataService) {
-            try {
-                const jsonFile = `${entityDirectory}/${dataService.def.entityName}.json`;
-                let jsonData = JSON.stringify(data, null, 2);
-                fs.writeFileSync(jsonFile, jsonData);
-                return null;
-            } catch (error) {
-                throw new Error(`Error: ${error}`);
-            }           
+            return new Promise((resolve, reject) => {
+                
+                const jsonFile = getFile(dataService);
+
+                fs.stat(jsonFile, function(error) {
+                    if (error) return reject(error);
+
+                    let jsonData = JSON.stringify(data, null, 2);
+                    fs.writeFile(jsonFile, jsonData, function(error) {
+                        if (error) return reject(error);
+                        resolve();
+                    }); 
+                });
+            });                   
+        }
+
+        function getFile(dataService) {            
+            return `${entityDirectory}/${dataService.def.entityName}.json`;
         }
     }
 
