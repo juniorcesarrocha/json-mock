@@ -50,8 +50,8 @@ module.exports = function (injector) {
 
         async function inserir(req, res, next) {
             try {
-                await todoService.inserir(req.body);
-                return res.send(null);
+                var item = await todoService.inserir(req.body);
+                return res.send(item);
                 next();
             } catch (error) {
                 return res.status(500).send(error);
@@ -60,8 +60,8 @@ module.exports = function (injector) {
 
         async function atualizar(req, res, next) {
             try {
-                await todoService.atualizar(req.params.id, req.body);
-                return res.send(null);
+                var item = await todoService.atualizar(req.params.id, req.body);
+                return res.send(item);
                 next();
             } catch (error) {
                 return res.status(500).send(error);
@@ -70,8 +70,8 @@ module.exports = function (injector) {
 
         async function excluir(req, res, next) {
             try {
-                await todoService.excluir(req.params.id);
-                return res.send(null);
+                var lista = await todoService.excluir(req.params.id);
+                return res.send(lista);
                 next();
             } catch (error) {
                 return res.status(500).send(error);

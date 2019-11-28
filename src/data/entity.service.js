@@ -52,13 +52,13 @@ module.exports = function (injector) {
             lista.push(data);
 
             await saveChanges(lista, dataService);
-            return data[dataService.def.primaryKeyColumn];
+            return data;
         }
 
-        async function atualizar(data, dataService) {
+        async function atualizar(id, data, dataService) {
             try {
                 const lista = await listar(dataService);
-                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == data[dataService.def.primaryKeyColumn]);                
+                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
                 if (index < 0) throw new Error(`Error: Not Found`);
 
                 lista[index] = data;

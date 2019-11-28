@@ -36,9 +36,9 @@ module.exports = function (injector) {
             }            
         }
 
-        async function atualizar(data) {
+        async function atualizar(id, data) {
             try {
-                return await entityService.atualizar(data, todoData);    
+                return await entityService.atualizar(id, data, todoData);    
             } catch (error) {
                 throw new Error(error);
             }            
