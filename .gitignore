@@ -62,3 +62,4 @@ typings/
 
 # vscode debugger folder
 src/.vscode
+.vscode

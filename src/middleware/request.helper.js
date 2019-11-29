@@ -1,3 +1,61 @@
+module.exports = function (injector) {
+    injector.addModule(requestService);
+
+    function requestService() {
+        let stackError = [];
+
+        const httpStatusCode = {
+            success: 200,
+            notFound: 404,
+            badRequest: 400,
+            serverError: 500
+        };
+
+        const typeError = {
+            data: 1,
+            business: 2,
+            server: 3
+        };
+
+        const severityError = {
+            high: 3,
+            medium: 2,
+            low: 1
+        }
+
+        var service = this;
+        service.result = result;
+        service.throwDataValidationError = throwDataValidationError;
+        service.throwBusinessValidationError = throwBusinessValidationError;
+        service.throwServerError = throwServerError;
+        return service;
+
+        function result(req, res, data) {
+
+        }
+
+        function throwDataValidationError(session, message) {
+            stackError.push({
+                id: session.method + session.path,
+                type: typeError.data,
+                severity: severityError.low,
+                message: message
+            });
+
+            stackError.push();
+        }
+
+        function throwBusinessValidationError(session, message) {
+            stackError.push();
+        }
+
+        function throwServerError(session, message) {
+            stackError.push();
+        }
+    }
+};
+
+
 /* 
     Helper para manipular as requisições e enviar Erros ou Resposta de sucesso.
     - Erro de Dados - throwDataValidationError
