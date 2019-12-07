@@ -17,6 +17,7 @@ injector.addInstance('entityDirectory', entityDirectory);
 injector.loadModules(path.join(__dirname, './resource'));
 injector.loadModules(path.join(__dirname, './data'));
 injector.loadModules(path.join(__dirname, './domain'));
+injector.loadModules(path.join(__dirname, './helper'));
 
 
 

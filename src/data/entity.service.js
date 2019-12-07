@@ -31,15 +31,11 @@ module.exports = function (injector) {
         }
 
         async function buscar(id, dataService) {
-            try {
-                const lista = await listar(dataService);
-                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
-                if (index >= 0) return lista[index];
-                if (index < 0) return {};
-
-            } catch (error) {
-                throw new Error(`Error: Not Found`);
-            }
+            const lista = await listar(dataService);
+            const index = getIndexByPrimaryKey(id, lista, dataService);
+            //const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
+            if (index >= 0) return lista[index];
+            if (index < 0) return null;
         }
 
         async function inserir(data, dataService) {
@@ -56,29 +52,24 @@ module.exports = function (injector) {
         }
 
         async function atualizar(id, data, dataService) {
-            try {
-                const lista = await listar(dataService);
-                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
-                if (index < 0) throw new Error(`Error: Not Found`);
+            const lista = await listar(dataService);
+            const index = getIndexByPrimaryKey(id, lista, dataService);
+            //const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
+            if (index < 0) return null;
 
-                lista[index] = data;
-                await saveChanges(lista, dataService);
-                return data;
-            } catch (error) {
-                throw new Error(`Error: ${error}`);
-            }
+            lista[index] = data;
+            await saveChanges(lista, dataService);
+            return data;
         }
 
-        async function excluir(id, dataService, callback) {
-            try {
-                const lista = await listar(dataService);
-                const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
-                lista.splice(index, 1);
-                await saveChanges(lista, dataService);
-                return lista;
-            } catch (error) {
-                throw new Error(`Error: ${error}`);
-            }
+        async function excluir(id, dataService) {
+            const lista = await listar(dataService);
+            const index = getIndexByPrimaryKey(id, lista, dataService); 
+            //lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
+            if (index < 0) return null;
+            lista.splice(index, 1);
+            await saveChanges(lista, dataService);
+            return lista;
         }
 
         function autoincrementPrimaryKey(data, lista, dataService) {
@@ -106,6 +97,10 @@ module.exports = function (injector) {
                     }); 
                 });
             });                   
+        }
+
+        function getIndexByPrimaryKey(id, lista, dataService) {
+            return lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
         }
 
         function getFile(dataService) {            
