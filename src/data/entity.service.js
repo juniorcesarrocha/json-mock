@@ -33,7 +33,6 @@ module.exports = function (injector) {
         async function buscar(id, dataService) {
             const lista = await listar(dataService);
             const index = getIndexByPrimaryKey(id, lista, dataService);
-            //const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
             if (index >= 0) return lista[index];
             if (index < 0) return null;
         }
@@ -54,7 +53,6 @@ module.exports = function (injector) {
         async function atualizar(id, data, dataService) {
             const lista = await listar(dataService);
             const index = getIndexByPrimaryKey(id, lista, dataService);
-            //const index = lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
             if (index < 0) return null;
 
             lista[index] = data;
@@ -65,7 +63,6 @@ module.exports = function (injector) {
         async function excluir(id, dataService) {
             const lista = await listar(dataService);
             const index = getIndexByPrimaryKey(id, lista, dataService); 
-            //lista.findIndex(x => x[dataService.def.primaryKeyColumn] == id);
             if (index < 0) return null;
             lista.splice(index, 1);
             await saveChanges(lista, dataService);

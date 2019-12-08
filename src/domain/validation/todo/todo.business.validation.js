@@ -23,7 +23,7 @@ module.exports = function (injector) {
         }
 
         function validarDescription(session, model) {
-            if (model.description && model.description.indexOf('teste') > -1) {
+            if (model.hasOwnProperty('description') && model.description.indexOf('teste') > -1) {
                 notificationService.throwBusinessValidationError(session, 'O campo Description não pode conter a palavra teste.');
                 setValidationResult(false);
             }

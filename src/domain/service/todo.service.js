@@ -1,7 +1,7 @@
 module.exports = function (injector) {
     injector.addModule(todoService);
 
-    function todoService(todoData, entityService, todoDataValidation, todoBusinessValidation, notificationService) {
+    function todoService(todoData, entityService, novoTodoDataValidation, atualizaTodoDataValidation, todoBusinessValidation, notificationService) {
         //definition
         var service = this;
         service.listar = listar;
@@ -16,7 +16,7 @@ module.exports = function (injector) {
             try {
                 return await entityService.listar(todoData);
             } catch (error) {
-                notificationService.throwServerError(session, error);
+                notificationService.throwServerError(session, error.message);
             }
         }
 
@@ -29,48 +29,48 @@ module.exports = function (injector) {
                 }
                 return await entityService.buscar(id, todoData);
             } catch (error) {
-                return errorHandlerService.throwServerError(session, error);
+                return errorHandlerService.throwServerError(session, error.message);
             }
         }
 
         async function inserir(session, model) {
             try {
 
-                const isDataValidation = todoDataValidation.isValid(session, model);
+                const isDataValidation = novoTodoDataValidation.isValid(session, model);
                 const isBusinessValidation = todoBusinessValidation.isValid(session, model);
 
                 if (!isDataValidation || !isBusinessValidation) return;
-
-                return await entityService.inserir(data, todoData);
+                const item = await entityService.inserir(model, todoData);
+                return item.idTodo;
             } catch (error) {
-                notificationService.throwServerError(session, error);
+                notificationService.throwServerError(session, error.message);
             }
         }
 
         async function atualizar(session, id, model) {
             try {
-                if (!todoDataValidation.isValid(session, model))
+                if (!atualizaTodoDataValidation.isValid(session, model))
                     return;
                 if (!todoBusinessValidation.isValid(session, model))
                     return;
 
                 return await entityService.atualizar(id, model, todoData);
             } catch (error) {
-                notificationService.throwServerError(session, error);
+                notificationService.throwServerError(session, error.message);
             }
         }
 
         async function excluir(session, id) {
             try {
-                const list = await entityService.excluir(session, id, todoData);
+                const list = await entityService.excluir(id, todoData);
                 if (!list) {
                     notificationService.throwNotFoundError(session, 'Todo não pode ser excluído.');
                     return;
                 }
 
-                return await entityService.excluir(id, todoData);
+                return list;
             } catch (error) {
-                notificationService.throwServerError(session, error);
+                notificationService.throwServerError(session, error.message);
             }
         }
     }
