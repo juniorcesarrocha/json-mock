@@ -28,6 +28,30 @@ module.exports = function (injector) {
             low: 1
         }
 
+        const typeDescription = {
+            httpStatusCode: {
+                success: 'Sucesso',
+                notFound: 'Não encontrado',
+                badRequest: 'Falha na requisição',
+                serverError: 'Erro no servidor'
+            },
+            type: {
+                Info: 'Information',
+                warning: 'Warning',
+                error: 'Errors'
+            },
+            typeValidation: {
+                data: 'Dados',
+                business: 'Negócio',
+                server: 'Servidor'
+            },
+            severityError: {
+                high: 'Alta',
+                medium: 'Média',
+                low: 'Baixa'
+            }
+        }
+
         var service = this;
         service.throwDataInfomationMessage = throwDataInfomationMessage;
         service.throwBusinessInfomationMessage = throwBusinessInfomationMessage;
@@ -42,10 +66,14 @@ module.exports = function (injector) {
         function throwDataInfomationMessage(session, message) {
             const notfy = {
                 id: `${session.method}#${session.path}`,
-                typeValidation: typeValidation.data,
-                type: type.info,
-                severity: severityError.low,
-                statusCode: httpStatusCode.success,
+                typeValidationNumber: typeValidation.data,
+                typeValidation: typeDescription.typeValidation.data,
+                typeNumber: type.info,
+                type: typeDescription.type.Info,
+                severityNumber: severityError.low,
+                severity: typeDescription.severityError.low,
+                statusCodeNumber: httpStatusCode.success,
+                statusCode: typeDescription.httpStatusCode.success,
                 message: message
             }
             

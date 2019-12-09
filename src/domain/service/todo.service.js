@@ -41,6 +41,9 @@ module.exports = function (injector) {
 
                 if (!isDataValidation || !isBusinessValidation) return;
                 const item = await entityService.inserir(model, todoData);
+
+                notificationService.throwDataInfomationMessage(session, 'Registro inserido com sucesso!');
+
                 return item.idTodo;
             } catch (error) {
                 notificationService.throwServerError(session, error.message);
@@ -54,7 +57,10 @@ module.exports = function (injector) {
                 if (!todoBusinessValidation.isValid(session, model))
                     return;
 
-                return await entityService.atualizar(id, model, todoData);
+                const item = await entityService.atualizar(id, model, todoData);
+                notificationService.throwDataInfomationMessage(session, 'Registro alterado com sucesso!');
+                return item;
+
             } catch (error) {
                 notificationService.throwServerError(session, error.message);
             }

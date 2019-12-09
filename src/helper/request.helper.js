@@ -20,6 +20,7 @@ module.exports = function (injector) {
 
         function result(req, res, data, next) {
             const errorList = findErrorById(req, stackError);
+            const messageList = findErrorById(req, stackMessage);
 
             if (errorList.length > 0) {
                 const statusCodeError = findStatusError(errorList);
@@ -29,12 +30,37 @@ module.exports = function (injector) {
                     stackError.splice(index, 1);
                 });
 
-                return res.status(statusCodeError).send(errorList);
+                const messageErrorList = errorList.map(e => e.message);
+
+                responseError = {
+                    Errors: messageErrorList
+                };
+
+                return res.status(statusCodeError).send({
+                    success: false,
+                    notifications: responseError
+                });
             }
 
-            if (stackMessage.length > 0) {
+            if (messageList.length > 0) {
+
+                const id = `${req.method}#${req.path}`;
+                stackMessage.filter(x => x.id == id).forEach(function(error, index) {
+                    stackMessage.splice(index, 1);
+                });
+
+                const warningList = messageList.filter(m => m.type == 'Warning').map(e => e.message);
+
+                const informationList = messageList.filter(m => m.type == 'Information').map(e => e.message);
+    
+                responseMessage  = {
+                    Warning: warningList,
+                    Information: informationList
+                };
+
                 return res.status(httpStatusCode.success).send({
-                    notification: stackMessage,
+                    success: true,
+                    notifications: responseMessage,
                     data: data
                 });
             }
