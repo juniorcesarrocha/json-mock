@@ -1,7 +1,7 @@
 module.exports = function (injector) {
     injector.addModule(todoService);
 
-    function todoService(todoData, entityService, novoTodoDataValidation, atualizaTodoDataValidation, todoBusinessValidation, notificationService) {
+    function todoService(todoDef, entityService, novoTodoDataValidation, atualizaTodoDataValidation, todoBusinessValidation, notificationService) {
         //definition
         var service = this;
         service.listar = listar;
@@ -14,7 +14,7 @@ module.exports = function (injector) {
         //implementation
         async function listar(session) {
             try {
-                return await entityService.listar(todoData);
+                return await entityService.listar(todoDef);
             } catch (error) {
                 notificationService.throwServerError(session, error.message);
             }
@@ -22,12 +22,12 @@ module.exports = function (injector) {
 
         async function buscar(session, id) {
             try {
-                const item = await entityService.buscar(id, todoData);
+                const item = await entityService.buscar(id, todoDef);
                 if (!item) {
                     notificationService.throwNotFoundError(session, 'Todo não encontrado.');
                     return;
                 }
-                return await entityService.buscar(id, todoData);
+                return await entityService.buscar(id, todoDef);
             } catch (error) {
                 return errorHandlerService.throwServerError(session, error.message);
             }
@@ -40,7 +40,7 @@ module.exports = function (injector) {
                 const isBusinessValidation = todoBusinessValidation.isValid(session, model);
 
                 if (!isDataValidation || !isBusinessValidation) return;
-                const item = await entityService.inserir(model, todoData);
+                const item = await entityService.inserir(model, todoDef);
 
                 notificationService.throwDataInfomationMessage(session, 'Registro inserido com sucesso!');
 
@@ -57,7 +57,7 @@ module.exports = function (injector) {
                 if (!todoBusinessValidation.isValid(session, model))
                     return;
 
-                const item = await entityService.atualizar(id, model, todoData);
+                const item = await entityService.atualizar(id, model, todoDef);
                 notificationService.throwDataInfomationMessage(session, 'Registro alterado com sucesso!');
                 return item;
 
@@ -68,7 +68,7 @@ module.exports = function (injector) {
 
         async function excluir(session, id) {
             try {
-                const list = await entityService.excluir(id, todoData);
+                const list = await entityService.excluir(id, todoDef);
                 if (!list) {
                     notificationService.throwNotFoundError(session, 'Todo não pode ser excluído.');
                     return;

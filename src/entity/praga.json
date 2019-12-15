@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "nomeCientifico": "Acidovorax avenae subsp. avenae",
+        "nomePopular": null,
+        "tipoPraga": 1
+    },
+    {
+        "id": 2,
+        "nomeCientifico": "Acidovorax avenae subsp. citrulli",
+        "nomePopular": null,
+        "tipoPraga": 1
+    },
+    {
+        "id": 2,
+        "nomeCientifico": "Deois schach",
+        "nomePopular": null,
+        "tipoPraga": 2
+    },
+    {
+        "id": 4,
+        "nomeCientifico": "Diactor bilineatus",
+        "nomePopular": null,
+        "tipoPraga": 2
+    }
+]

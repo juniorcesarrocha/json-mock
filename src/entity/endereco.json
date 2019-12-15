@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "idUf": null,
+        "cep": "49089438",
+        "bairro": "Soledade",
+        "txtEndereco": "Rua G",
+        "numero": "745",
+        "complemento": "prédio",
+        "latitude": null,
+        "longitude": null,
+        "tipoCoordenada": null,
+        "comunidadeId": null,
+        "municipioId": 3,
+        "municipio": null
+      }
+]

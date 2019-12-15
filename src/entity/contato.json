@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "telefone": "51987976543",
+        "email": "teste@teste.com"
+    },
+    {
+        "id": 2,
+        "telefone": "7934782976",
+        "email": "teste2@teste.com"
+    },
+    {
+        "id": 3,
+        "telefone": "987658754",
+        "email": "teste3@teste.com"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "cnpj": "45124710000161",
+        "razaoSocial": "Julio e Fabiana Eletrônica Ltda",
+        "nomeFantasia": "Julio e Fabiana Eletrônica",
+        "observacao": "Especialização em atendimento domiciliar",
+        "dataDesativacao": null,
+        "justificativaDesativacao": null,
+        "indAtivo": 1,
+        "idEndereco": 1,
+        "idFabricanteFilial": null,
+        "fabricanteContatos": null,
+        "fabricanteEndereco": null
+    }
+]

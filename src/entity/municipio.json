@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "nome": "Amparo de São Francisco",
+        "ufId": 1,
+        "uf": null
+    },
+    {
+        "id": 2,
+        "nome": "Aquidabã",
+        "ufId": 1,
+        "uf": null
+    },
+    {
+        "id": 3,
+        "nome": "Aracaju",
+        "ufId": 1,
+        "uf": null
+    }
+]

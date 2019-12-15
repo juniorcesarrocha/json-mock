@@ -1,0 +1,14 @@
+[
+    {
+        "IdFabricante": 1,
+        "IdContato": 1
+    },
+    {
+        "IdFabricante": 1,
+        "IdContato": 3
+    },
+    {
+        "IdFabricante": 2,
+        "IdContato": 2
+    }
+]
