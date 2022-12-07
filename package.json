@@ -11,6 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "dibuilder": "^1.1.6",
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   }
 }
